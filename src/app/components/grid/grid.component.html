@@ -1,0 +1,19 @@
+<div class="flex justify-center">
+  <table>
+    @for (row of nodes; track $index) {
+    <tr>
+      @for (cell of row; track $index) {
+      <td>
+        <app-node
+          [node]="cell"
+          [selectType]="selectType"
+          [startNode]="startNode"
+          [endNode]="endNode"
+          [wallNodes]="wallNodes"
+        ></app-node>
+      </td>
+      }
+    </tr>
+    }
+  </table>
+</div>

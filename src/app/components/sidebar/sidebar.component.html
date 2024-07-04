@@ -1,0 +1,31 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened
+    ><section class="flex flex-col items-center">
+      <h3>Set Up The Grid</h3>
+      <mat-button-toggle-group
+        name="favoriteColor"
+        aria-label="Favorite Color"
+        [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()"
+      >
+        <mat-button-toggle value="start" (click)="handleClickStart()"
+          >Start</mat-button-toggle
+        >
+        <mat-button-toggle value="end" (click)="handleClickEnd()"
+          >End</mat-button-toggle
+        >
+        <mat-button-toggle value="sall" (click)="handleClickWall()"
+          >Wall</mat-button-toggle
+        >
+      </mat-button-toggle-group>
+    </section>
+    <section class="flex flex-col items-center mt-5">
+      <button mat-flat-button (click)="handleStart()">Start</button>
+    </section>
+    @if(error !== null) {
+    <div class="text-center mt-5">
+      {{ error }}
+    </div>
+    }
+  </mat-sidenav>
+  <mat-sidenav-content><app-grid></app-grid></mat-sidenav-content>
+</mat-sidenav-container>
