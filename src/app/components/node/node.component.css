@@ -35,3 +35,10 @@
   color: black;
   cursor: pointer;
 }
+
+.path {
+  border: 1px solid blue;
+  background-color: blue;
+  opacity: 0.5;
+  cursor: pointer;
+}

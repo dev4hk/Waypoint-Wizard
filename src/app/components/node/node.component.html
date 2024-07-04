@@ -10,6 +10,17 @@
   "
   (click)="handleClick()"
 >
-  <span class="block">G:1</span>
-  <span>F:1</span>
+  @if(node.isInShortestPath) {
+  <span class="block path">G:{{ node.gCost }}</span>
+  <span>F:{{ node.fCost }}</span>
+  } @else { @if (!node.isStart && !node.isEnd && !node.isWall) {
+  <span class="block">G:{{ node.gCost }}</span>
+  <span>F:{{ node.fCost }}</span>
+  } @else { @if (node.isStart) {
+  <span class="block">Start</span>
+  } @if (node.isEnd) {
+  <span class="block">End</span>
+  } @if (node.isWall) {
+  <span class="block">Wall</span>
+  } } }
 </div>

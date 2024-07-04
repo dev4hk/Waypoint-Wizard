@@ -19,7 +19,12 @@
       </mat-button-toggle-group>
     </section>
     <section class="flex flex-col items-center mt-5">
+      @if (startNode && endNode) {
+
       <button mat-flat-button (click)="handleStart()">Start</button>
+      } @else {
+      <button mat-flat-button disabled (click)="handleStart()">Start</button>
+      }
     </section>
     @if(error !== null) {
     <div class="text-center mt-5">

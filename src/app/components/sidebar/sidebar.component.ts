@@ -11,6 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NodeService } from '../../services/node.service';
 import { SelectType } from '../../select-type';
 import { MatButtonModule } from '@angular/material/button';
+import { Node } from '../../node';
 
 @Component({
   selector: 'app-sidebar',
@@ -30,11 +31,15 @@ export class SidebarComponent implements OnInit {
   hideSingleSelectionIndicator = signal(false);
   selectType = SelectType.NONE;
   error: string | null = null;
+  startNode?: Node;
+  endNode?: Node;
 
   constructor(private service: NodeService) {}
 
   ngOnInit(): void {
     this.service.selectType.subscribe((type) => (this.selectType = type));
+    this.service.startNode.subscribe((node) => (this.startNode = node));
+    this.service.endNode.subscribe((node) => (this.endNode = node));
   }
 
   toggleSingleSelectionIndicator() {
