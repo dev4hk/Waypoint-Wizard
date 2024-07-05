@@ -3,8 +3,10 @@
     <mat-card-title>Find Path</mat-card-title>
   </mat-card-header>
   <mat-card-content
-    ><button mat-flat-button (click)="handleClear()" class="mt-5">Clear</button>
-    @if (startNode && endNode) {
+    ><button mat-flat-button (click)="handleClear()" class="mt-5">
+      {{ isSearchFinished ? "Restart" : "Clear" }}
+    </button>
+    @if (startNode && endNode && !isSearchFinished) {
 
     <button mat-flat-button (click)="handleStart()" class="mt-5 ms-3">
       Start
@@ -14,7 +16,6 @@
       Start
     </button>
     } @if(error.length > 0) {
-
     <span class="block text-xs text-orange-300 mt-2"
       >Mininum: 2, maximum: 20</span
     >

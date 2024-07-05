@@ -15,6 +15,7 @@ export class NodeService {
   selectType = new BehaviorSubject<SelectType>(SelectType.NONE);
   isEndReached = false;
   isUnReachable = false;
+  isSearchFinished = new BehaviorSubject<boolean>(false);
   rows = 10;
   cols = 15;
 
@@ -130,6 +131,7 @@ export class NodeService {
     if (!this.isEndReached && queue.isEmpty()) {
       this.isUnReachable = true;
     }
+    this.isSearchFinished.next(this.isEndReached || this.isUnReachable);
   }
 
   backtrackToGetShortestPath() {
@@ -175,6 +177,7 @@ export class NodeService {
     this.selectType.next(SelectType.NONE);
     this.isEndReached = false;
     this.isUnReachable = false;
+    this.isSearchFinished.next(false);
   }
 
   setRows(rows: number) {
