@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Node } from '../node';
 import { BehaviorSubject } from 'rxjs';
 import { SelectType } from '../select-type';
+import { ICompare, PriorityQueue } from '@datastructures-js/priority-queue';
 
 @Injectable({
   providedIn: 'root',
@@ -9,18 +10,16 @@ import { SelectType } from '../select-type';
 export class NodeService {
   nodes = new BehaviorSubject<Node[][]>([]);
   startNode = new BehaviorSubject<Node | undefined>(undefined);
-  currentNode: Node | undefined = undefined;
   endNode = new BehaviorSubject<Node | undefined>(undefined);
   wallNodes = new BehaviorSubject<Set<Node>>(new Set<Node>());
   selectType = new BehaviorSubject<SelectType>(SelectType.NONE);
   isEndReached = false;
-  openList: Node[] = [];
   isUnReachable = false;
-  rows = 17;
-  cols = 30;
+  rows = 10;
+  cols = 15;
 
   constructor() {
-    this.nodes.next(this.createGrid());
+    this.createGrid();
   }
 
   createGrid() {
@@ -31,7 +30,7 @@ export class NodeService {
         grid[i][j] = new Node(this.createId(i, j), i, j);
       }
     }
-    return grid;
+    this.nodes.next(grid);
   }
 
   createId(row: number, col: number) {
@@ -48,7 +47,6 @@ export class NodeService {
     if (this.wallNodes.value?.has(node)) {
       this.wallNodes.value.delete(node);
     }
-    this.currentNode = this.startNode.value ? this.startNode.value : undefined;
   }
 
   updateEndNode(node: Node) {
@@ -118,38 +116,18 @@ export class NodeService {
   }
 
   traverse() {
-    this.openList.push(this.currentNode!);
-    while (!this.isEndReached && this.openList.length !== 0) {
-      const currX = this.currentNode?.row;
-      const currY = this.currentNode?.col;
-      this.currentNode!.isVisited = true;
-      const currentIndex = this.openList.indexOf(this.currentNode!);
-      if (currentIndex > -1) {
-        this.openList.splice(currentIndex, 1);
-      }
-      this.addOpenNodes(currX!, currY!);
-
-      let bestNodeIndex = 0;
-      let bestNodeFCost = Number.MAX_VALUE;
-      for (let i = 0; i < this.openList.length; i++) {
-        const curr = this.openList[0];
-        if (curr.fCost < bestNodeFCost) {
-          bestNodeIndex = i;
-          bestNodeFCost = curr.fCost;
-        } else if (curr.fCost === bestNodeFCost) {
-          if (curr.gCost < this.openList[bestNodeIndex].gCost) {
-            bestNodeIndex = i;
-          }
-        }
-      }
-
-      this.currentNode = this.openList[bestNodeIndex];
-      if (this.currentNode === this.endNode.value) {
+    const queue = new PriorityQueue<Node>(compareNodes);
+    queue.enqueue(this.startNode.value!);
+    while (!this.isEndReached && !queue.isEmpty()) {
+      const curr = queue.dequeue();
+      this.addOpenNodes(curr, queue);
+      curr.isVisited = true;
+      if (curr === this.endNode.value) {
         this.isEndReached = true;
         this.backtrackToGetShortestPath();
       }
     }
-    if (!this.isEndReached && this.openList.length === 0) {
+    if (!this.isEndReached && queue.isEmpty()) {
       this.isUnReachable = true;
     }
   }
@@ -164,27 +142,56 @@ export class NodeService {
     }
   }
 
-  addOpenNodes(row: number, col: number) {
+  addOpenNodes(node: Node, queue: PriorityQueue<Node>) {
     const arr = this.nodes.value;
+    const { row, col } = node;
     if (row > 0) {
-      this.openNode(arr[row - 1][col]);
+      this.openNode(arr[row - 1][col], node, queue);
     }
     if (row < this.rows - 1) {
-      this.openNode(arr[row + 1][col]);
+      this.openNode(arr[row + 1][col], node, queue);
     }
     if (col > 0) {
-      this.openNode(arr[row][col - 1]);
+      this.openNode(arr[row][col - 1], node, queue);
     }
     if (col < this.cols - 1) {
-      this.openNode(arr[row][col + 1]);
+      this.openNode(arr[row][col + 1], node, queue);
     }
   }
 
-  openNode(node: Node) {
+  openNode(node: Node, parentNode: Node, queue: PriorityQueue<Node>) {
     if (!node.isOpen && !node.isVisited && !node.isWall) {
       node.isOpen = true;
-      node.parent = this.currentNode;
-      this.openList.push(node);
+      node.parent = parentNode;
+      queue.enqueue(node);
     }
   }
+
+  clear() {
+    this.createGrid();
+    this.startNode.next(undefined);
+    this.endNode.next(undefined);
+    this.wallNodes.next(new Set());
+    this.selectType.next(SelectType.NONE);
+    this.isEndReached = false;
+    this.isUnReachable = false;
+  }
+
+  setRows(rows: number) {
+    this.rows = rows;
+  }
+
+  setCols(cols: number) {
+    this.cols = cols;
+  }
 }
+
+const compareNodes: ICompare<Node> = (a: Node, b: Node) => {
+  if (a.fCost < b.fCost) {
+    return -1;
+  }
+  if (a.fCost > b.fCost) {
+    return 1;
+  }
+  return a.gCost < b.gCost ? -1 : 1;
+};
