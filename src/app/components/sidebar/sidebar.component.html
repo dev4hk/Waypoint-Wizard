@@ -1,30 +1,13 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav mode="side" opened
-    ><section class="flex flex-col items-center">
-      <h3>Set Up The Grid</h3>
-      <mat-button-toggle-group
-        name="favoriteColor"
-        aria-label="Favorite Color"
-        [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()"
-      >
-        <mat-button-toggle value="start" (click)="handleClickStart()"
-          >Start</mat-button-toggle
-        >
-        <mat-button-toggle value="end" (click)="handleClickEnd()"
-          >End</mat-button-toggle
-        >
-        <mat-button-toggle value="sall" (click)="handleClickWall()"
-          >Wall</mat-button-toggle
-        >
-      </mat-button-toggle-group>
-    </section>
-    <section class="flex flex-col items-center mt-5">
-      @if (startNode && endNode) {
-
-      <button mat-flat-button (click)="handleStart()">Start</button>
-      } @else {
-      <button mat-flat-button disabled (click)="handleStart()">Start</button>
-      }
+    ><section class="flex flex-col px-5 py-2 justify-center h-full">
+      <app-grid-card></app-grid-card>
+      <app-node-card></app-node-card>
+      <app-search-card
+        [startNode]="startNode"
+        [endNode]="endNode"
+      ></app-search-card>
+      <app-description-card></app-description-card>
     </section>
     @if(error !== null) {
     <div class="text-center mt-5">

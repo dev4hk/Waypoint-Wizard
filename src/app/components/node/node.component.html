@@ -6,21 +6,14 @@
       ? 'end'
       : isWallNode()
       ? 'wall'
+      : node.isInShortestPath
+      ? 'path'
+      : node.isVisited
+      ? 'visited'
       : 'cell'
   "
   (click)="handleClick()"
 >
-  @if(node.isInShortestPath) {
-  <span class="block path">G:{{ node.gCost }}</span>
-  <span>F:{{ node.fCost }}</span>
-  } @else { @if (!node.isStart && !node.isEnd && !node.isWall) {
-  <span class="block">G:{{ node.gCost }}</span>
-  <span>F:{{ node.fCost }}</span>
-  } @else { @if (node.isStart) {
-  <span class="block">Start</span>
-  } @if (node.isEnd) {
-  <span class="block">End</span>
-  } @if (node.isWall) {
-  <span class="block">Wall</span>
-  } } }
+  <span class="block">F: {{ node.fCost }}</span
+  ><span>G: {{ node.gCost }}</span>
 </div>
