@@ -18,7 +18,7 @@ This project is to demonstrate & visualize a path finding technique by implement
 1. Create a grid n \* m
 2. Let users to setup start node, end node, wall nodes
 3. Use Manhattan Distance to calculate following values for all the nodes in the grid:
-   - g cost = distance between the start node and the a node at current position
+   - g cost = distance between the start node and a node at current position
    - h cost = heuristic value which can vary depending on how you define the h cost. In this project, h cost is distance between a node at current postion and the end node
    - f cost = g cost + h cost
 4. Starting from the start node, look at the neighboring nodes (north, south, east and west, no diagonal nodes), and add these nodes into a min heap
