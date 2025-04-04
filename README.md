@@ -1,37 +1,76 @@
-# Waypoint Wizard
+# 🧭 Waypoint Wizard
 
-This project is to demonstrate & visualize a path finding technique by implementing A\* Search Algorithm in Angular
+**Waypoint Wizard** is an interactive Angular application that demonstrates and visualizes the **A\* Search Algorithm** for pathfinding. It allows users to build customizable grid maps, define start/end points, place obstacles, and watch the algorithm find the optimal route.
 
-## Features
+---
 
-- Users can set up the size of a grid
-- Users can set up a start node, an end node as well as wall nodes, which are obstacles that block the path
-- Users can clear the set up and start over, or start simulating to find an optimal path from the start node to the end node
+## ✨ Features
 
-## Used Data Structures
+- 🔧 Adjustable grid size
+- 🟢 Set a **start node** and 🔴 an **end node**
+- 🧱 Place **wall nodes** to simulate obstacles
+- 🔄 Reset the grid and restart the simulation
+- 🚀 Visualize the optimal path from start to end using **A\* Search**
 
-- Array
-- Min Heap
+---
 
-## Project and A\* Search Algorithm Implementation
+## 🧠 Data Structures Used
 
-1. Create a grid n \* m
-2. Let users to setup start node, end node, wall nodes
-3. Use Manhattan Distance to calculate following values for all the nodes in the grid:
-   - g cost = distance between the start node and a node at current position
-   - h cost = heuristic value which can vary depending on how you define the h cost. In this project, h cost is distance between a node at current postion and the end node
-   - f cost = g cost + h cost
-4. Starting from the start node, look at the neighboring nodes (north, south, east and west, no diagonal nodes), and add these nodes into a min heap
-5. Pop a node from the min heap (which has the lowest f cost), and set the node as current node
-6. Repeat step #4 and #5, until the current node is at the end node
-7. Backtrack the path from the end node to the start node, to visualize the optimal path to the user
+- **Array** – to represent the grid and its nodes
+- **Min Heap** – to efficiently retrieve the next node with the lowest `f-cost`
 
-## Tech Stack
+---
 
-![Static Badge](https://img.shields.io/badge/Angular-blue)
-![Static Badge](https://img.shields.io/badge/Typescript-blue)
-![Static Badge](https://img.shields.io/badge/A*_Search_Algorithm-blue)
+## 🔍 A\* Search Algorithm Implementation
 
-## Demo
+1. **Initialize the Grid:**  
+   Create a grid of size `n × m`.
 
-![](images/demo.gif)
+2. **User Setup:**  
+   Let the user define:
+  - Start node
+  - End node
+  - Wall nodes (impassable)
+
+3. **Cost Calculations (Manhattan Distance):**  
+   For each node, calculate:
+  - `g-cost`: Distance from the **start node**
+  - `h-cost`: Estimated distance to the **end node**
+  - `f-cost`: `g-cost + h-cost`
+
+4. **Search Algorithm:**
+  - Start from the start node.
+  - Evaluate neighbors (up, down, left, right — no diagonals).
+  - Add valid neighbors to a **min heap** prioritized by `f-cost`.
+
+5. **Pathfinding Loop:**
+  - Pop the node with the lowest `f-cost` from the heap.
+  - Set it as the current node.
+  - Repeat until the **end node** is reached.
+
+6. **Path Reconstruction:**
+  - Once the end node is reached, backtrack to the start node using parent references.
+  - Visualize the path step-by-step for the user.
+
+---
+
+## 🛠 Tech Stack
+
+![Angular](https://img.shields.io/badge/Angular-blue)
+![TypeScript](https://img.shields.io/badge/Typescript-blue)
+![A* Search](https://img.shields.io/badge/A*_Search_Algorithm-blue)
+
+---
+
+## 🎬 Demo
+
+![A* Search Algorithm Demo](images/demo.gif)
+
+---
+
+## 📌 Notes
+
+This project is a great educational tool to:
+- Understand how A\* pathfinding works
+- Visualize heuristic-driven graph traversal
+- Explore front-end algorithm animations using Angular
