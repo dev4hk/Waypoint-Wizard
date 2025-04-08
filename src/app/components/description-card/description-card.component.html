@@ -3,29 +3,16 @@
     <mat-card-title>Node Types</mat-card-title>
   </mat-card-header>
   <mat-card-content class="mt-5"
-    ><div class="flex items-center mt-2">
-      <div class="cell"></div>
-      <span class="ms-5">Available Node</span>
-    </div>
-    <div class="flex items-center mt-2">
-      <div class="start"></div>
-      <span class="ms-5">Start Node</span>
-    </div>
-    <div class="flex items-center mt-2">
-      <div class="end"></div>
-      <span class="ms-5">End Node</span>
-    </div>
-    <div class="flex items-center mt-2">
-      <div class="wall"></div>
-      <span class="ms-5">Wall Node</span>
-    </div>
-    <div class="flex items-center mt-2">
-      <div class="visited"></div>
-      <span class="ms-5">Visited Node</span>
-    </div>
-    <div class="flex items-center mt-2">
-      <div class="path"></div>
-      <span class="ms-5">Shortest Path Node</span>
+  >
+    <div class="flex gap-5">
+      @for (node of nodes; track node.name) {
+        <div class="node-item hover-wrapper">
+          <div class="hover-container w-5">
+            <span class="node-visual" [ngClass]="node.className"></span>
+            <div class="hover-text">{{ node.name }}</div>
+          </div>
+        </div>
+      }
     </div>
   </mat-card-content>
 </mat-card>
