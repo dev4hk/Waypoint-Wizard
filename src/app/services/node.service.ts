@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Node } from '../node';
-import { BehaviorSubject } from 'rxjs';
-import { SelectType } from '../select-type';
-import { ICompare, PriorityQueue } from '@datastructures-js/priority-queue';
+import {Injectable} from '@angular/core';
+import {Node} from '../node';
+import {BehaviorSubject} from 'rxjs';
+import {SelectType} from '../select-type';
+import {ICompare, PriorityQueue} from '@datastructures-js/priority-queue';
 
 @Injectable({
   providedIn: 'root',
@@ -121,11 +121,13 @@ export class NodeService {
     queue.enqueue(this.startNode.value!);
     while (!this.isEndReached && !queue.isEmpty()) {
       const curr = queue.dequeue();
-      this.addOpenNodes(curr, queue);
-      curr.isVisited = true;
-      if (curr === this.endNode.value) {
-        this.isEndReached = true;
-        this.backtrackToGetShortestPath();
+      if (curr) {
+        this.addOpenNodes(curr, queue);
+        curr.isVisited = true;
+        if (curr === this.endNode.value) {
+          this.isEndReached = true;
+          this.backtrackToGetShortestPath();
+        }
       }
     }
     if (!this.isEndReached && queue.isEmpty()) {
@@ -146,7 +148,7 @@ export class NodeService {
 
   addOpenNodes(node: Node, queue: PriorityQueue<Node>) {
     const arr = this.nodes.value;
-    const { row, col } = node;
+    const {row, col} = node;
     if (row > 0) {
       this.openNode(arr[row - 1][col], node, queue);
     }
